@@ -1,7 +1,12 @@
 import './App.css';
+import ProductList from './components/Public/ProductList';
 
 function App() {
-  return <>Hola</>;
+  return (
+    <>
+      <ProductList />
+    </>
+  );
 }
 
 export default App;
