@@ -21,7 +21,14 @@ const ProductList = () => {
       <h1>Product List</h1>
       <ul>
         {products.map((product) => (
-          <li key={product.id}>{product}</li>
+          <li key={product.id}>
+            <strong>Product:</strong>
+            {product.title} <br />
+            {product.description} <br />
+            {product.price} <br />
+            {product.category} <br />
+            <img src={product.image} alt={product.title} />
+          </li>
         ))}
       </ul>
     </div>
