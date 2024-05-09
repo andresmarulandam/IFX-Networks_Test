@@ -1,0 +1,8 @@
+:root {
+  --soft-color: rgba(0, 0, 0, 0.5);
+  --softer-color: rgba(0, 0, 0, 0.2);
+  --color-primary: blue;
+  --color-waring: green;
+  --color-white: #fff;
+  --color-danger: #ff0000;
+}

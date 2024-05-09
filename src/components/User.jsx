@@ -8,8 +8,7 @@ export default function User() {
     user && (
       <div>
         <div>
-          <strong>{user.name.firstname}</strong>
-          <strong>{user.name.lastname}</strong>
+          <strong>{user.name}</strong>
         </div>
       </div>
     )

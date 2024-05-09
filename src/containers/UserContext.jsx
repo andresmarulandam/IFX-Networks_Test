@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from 'react';
 const UserContext = createContext({});
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
 
   //Mounted
   useEffect(() => {
@@ -26,6 +26,10 @@ export function UserProvider({ children }) {
     if (user !== undefined) {
       localStorage.setItem('user', JSON.stringify(user));
     }
+  }, [user]);
+
+  useEffect(() => {
+    console.log(user);
   }, [user]);
 
   return (

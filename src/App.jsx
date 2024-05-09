@@ -1,11 +1,11 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { UserProvider } from './containers/UserContext.jsx';
+
 import ProtectedRoute from './containers/ProtectedRoute.jsx';
 
 const HomePage = lazy(() => import('./pages/HomePage.jsx'));
 const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
-const ProductPage = lazy(() => import('./pages/ProductPage.jsx'));
 const AdminPage = lazy(() => import('./pages/AdminPage.jsx'));
 
 import './App.css';
@@ -18,7 +18,6 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/product/:id" element={<ProductPage />} />
 
             <Route
               path="admin"

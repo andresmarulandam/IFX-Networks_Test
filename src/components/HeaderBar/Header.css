@@ -1,0 +1,11 @@
+header {
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+.header-logo {
+  width: 6rem;
+}
+.title {
+  margin: 0 auto;
+}
