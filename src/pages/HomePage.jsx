@@ -51,7 +51,7 @@ export default function HomePage() {
     <div>
       <div className="body__container">
         <div className="nav">
-          <Header />
+          <Header title="IFX Store" />
           <div className="nav-right">
             <div className="search-container">
               <SearchInput

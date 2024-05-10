@@ -1,11 +1,11 @@
 import './Header.css';
 import logo from '../../assets/logo.jpg';
 
-function Header() {
+function Header({ title }) {
   return (
     <header>
       <img className="header-logo" src={logo} alt="logo" />
-      <h1 className="title"> IFX STORE</h1>
+      <h1 className="title"> {title}</h1>
     </header>
   );
 }
