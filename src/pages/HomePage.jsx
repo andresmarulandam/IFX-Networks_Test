@@ -63,7 +63,6 @@ export default function HomePage() {
 
             <div>
               <LoginButton />
-              <span className="login-text">Login</span>
             </div>
             <div>
               <CartButton num={addedItems.length} click={setShowAddProducts} />

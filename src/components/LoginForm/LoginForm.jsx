@@ -1,26 +1,45 @@
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../containers/UserContext';
+import fetchData from '../../utils/axiosConfig';
+
 import { Button, Form } from 'react-bootstrap';
 import { Formik, ErrorMessage } from 'formik';
 import { z } from 'zod';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
 
 const signInSchema = z.object({
-  email: z.string().email(),
+  username: z.string(),
   password: z.string().min(6).max(16),
 });
 
 export default function LoginForm() {
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
   const initialvalues = {
     email: '',
     password: '',
   };
+
+  function onSignIn() {
+    navigate('/admin');
+  }
+
   return (
     <>
       <Formik
         initialValues={initialvalues}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
+        onSubmit={async (values, { setSubmitting }) => {
+          try {
+            const response = await fetchData.post('/auth/login', values);
+            const user = response.data;
+            setUser(user);
             setSubmitting(false);
-          }, 1000);
+          } catch (error) {
+            setFieldError('Incorrect');
+            setSubmitting(false);
+          }
         }}
         validationSchema={toFormikValidationSchema(signInSchema)}
       >
@@ -35,18 +54,20 @@ export default function LoginForm() {
         }) => (
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Email Address</Form.Label>
+              <Form.Label>Enter Username</Form.Label>
               <Form.Control
-                type="email"
-                placeholder="Enter email"
+                type="username"
+                placeholder="Enter username"
                 name="email"
-                value={values.email}
+                value={values.username}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={touched.email && errors.email ? 'is-invalid' : ''}
+                className={
+                  touched.username && errors.username ? 'is-invalid' : ''
+                }
               />
               <ErrorMessage
-                name="email"
+                name="username"
                 component="div"
                 className="invalid-feedback"
               />
@@ -78,6 +99,7 @@ export default function LoginForm() {
               className="rounded-pill text-white "
               style={{ width: '90%' }}
               disabled={isSubmitting}
+              onClick={onSignIn}
             >
               Submit
             </Button>
