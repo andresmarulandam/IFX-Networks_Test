@@ -1,12 +1,13 @@
-import Table from '../components/DataTable/Table';
+import { useState } from 'react';
+
+import UserTable from '../components/DataTable/UserTable';
+import ProductTable from '../components/DataTable/ProductTable';
 import Header from '../components/HeaderBar/Header';
-import { IoIosAddCircle } from 'react-icons/io';
-import { MdModeEditOutline } from 'react-icons/md';
-import { MdDeleteForever } from 'react-icons/md';
 
 import './AdminPage.css';
 
 export default function AdminPage() {
+  const [showProducts, setShowProducts] = useState();
   return (
     <div>
       <div className="body__container">
@@ -14,21 +15,22 @@ export default function AdminPage() {
           <Header title="Admin Dashboard" />
           <div className="nav-right">
             <div>
-              <IoIosAddCircle />
-              <span>Add Product</span>
-            </div>
-            <div>
-              <MdModeEditOutline />
-              <span>Edit Product</span>
-            </div>
-            <div>
-              <MdDeleteForever />
-              <span>Delete Product</span>
+              <button
+                className={`tab-btn ${showProducts ? '' : 'active'}`}
+                onClick={() => setShowProducts(true)}
+              >
+                Products List
+              </button>
+              <button
+                className={`tab-btn ${showProducts ? 'active' : ''}`}
+                onClick={() => setShowProducts(false)}
+              >
+                Users List
+              </button>
             </div>
           </div>
         </div>
-
-        <Table />
+        {showProducts ? <ProductTable /> : <UserTable />}
       </div>
     </div>
   );

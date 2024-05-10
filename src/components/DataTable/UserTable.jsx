@@ -8,7 +8,7 @@ import { FaUserPlus } from 'react-icons/fa';
 import { FaUserEdit } from 'react-icons/fa';
 import { FaUserTimes } from 'react-icons/fa';
 
-function Table() {
+function UserTable() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -87,10 +87,16 @@ function Table() {
       cell: (row) => (
         <>
           <div>
-            <button onClick={() => handleAddUser(row.id)}>
+            <button
+              style={{ marginRight: '10px' }}
+              onClick={() => handleAddUser(row.id)}
+            >
               <FaUserPlus size={18} />
             </button>
-            <button onClick={() => handleEditUser(row.id)}>
+            <button
+              style={{ marginRight: '10px' }}
+              onClick={() => handleEditUser(row.id)}
+            >
               <FaUserEdit size={18} />
             </button>
             <button onClick={() => handleDeleteUser(row.id)}>
@@ -134,4 +140,4 @@ function Table() {
   );
 }
 
-export default Table;
+export default UserTable;
