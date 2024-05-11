@@ -15,14 +15,17 @@ export default function HomePage() {
   const [searchValue, setSearchValue] = useState('');
   const [addedItems, setAddedItems] = useState([]);
   const [showAddProducts, setShowAddProducts] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
         const response = await fetchData.get('/products');
         setItems(response.data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching data', error);
+        setLoading(false);
       }
     };
     fetchItems();
@@ -70,13 +73,16 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-
-        <CardBody
-          products={itemsFilter}
-          addItem={addItem}
-          removeItem={removeItem}
-          addedItems={addedItems}
-        />
+        {loading ? (
+          <p>Loading..</p>
+        ) : (
+          <CardBody
+            products={itemsFilter}
+            addItem={addItem}
+            removeItem={removeItem}
+            addedItems={addedItems}
+          />
+        )}
       </div>
     </div>
   );

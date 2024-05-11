@@ -8,10 +8,18 @@ import { FaUserPlus } from 'react-icons/fa';
 import { FaUserEdit } from 'react-icons/fa';
 import { FaUserTimes } from 'react-icons/fa';
 
+import Modal from 'react-bootstrap/Modal';
+import { Button } from 'react-bootstrap';
+
 function UserTable() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filteredUsers, setFilteredUsers] = useState([]);
+
+  const [editingUserId, setEditingUserId] = useState(null);
+  const [updatedUserData, setUpdatedUserData] = useState({});
+
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -37,21 +45,39 @@ function UserTable() {
     }
   };
 
-  const handleEditUser = async (userId) => {
+  const handleInputChange = (e, field) => {
+    setUpdatedUserData({ ...updatedUserData, [field]: e.target.value });
+  };
+
+  const handleEditUser = (userId) => {
+    setEditingUserId(userId);
+    setShowModal(true);
+    const userToEdit = users.find((user) => user.id === userId);
+    setUpdatedUserData(userToEdit);
+  };
+
+  const handleUpdateUser = async () => {
     try {
-      await fetchData.put(`/users/${userId}`, updatedUserData);
+      await fetchData.put(`/users/${editingUserId}`, updatedUserData);
       console.log('Usuario editado');
       const updatedUsers = users.map((user) => {
-        if (user.id === userId) {
+        if (user.id === editingUserId) {
           return { ...user, ...updatedUserData };
         }
         return user;
       });
       setUsers(updatedUsers);
       setFilteredUsers(updatedUsers);
+      setShowModal(false);
     } catch (error) {
       console.error('Error al editar usuario', error);
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setUpdatedUserData({});
+    setEditingUserId(null);
   };
 
   const handleDeleteUser = async (userId) => {
@@ -126,15 +152,38 @@ function UserTable() {
       {loading ? (
         <p>Loading..</p>
       ) : (
-        <DataTable
-          title="User List"
-          columns={columns}
-          data={filteredUsers}
-          pagination
-          fixedHeader
-          expandableRows
-          expandableRowsComponent={ExpandedComponent}
-        />
+        <>
+          <DataTable
+            title="User List"
+            columns={columns}
+            data={filteredUsers}
+            pagination
+            fixedHeader
+            expandableRows
+            expandableRowsComponent={ExpandedComponent}
+          />
+          <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit User</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h3>Username</h3>
+              <input
+                type="text"
+                value={updatedUserData.username || ''}
+                onChange={(e) => handleInputChange(e, 'username')}
+              />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleUpdateUser}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
       )}
     </div>
   );
